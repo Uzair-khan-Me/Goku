@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Son Goku - The Legend</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-wrapper">
+        <div class="background-image"></div>
+        <div class="overlay"></div>
+        <div class="nebula"></div>
+    </div>
+    
+    <div class="stars"></div>
+    <div class="energy-orb"></div>
+    <div class="particles"></div>
+    
+    <div class="container">
+        <div class="hero-section">
+            <h1>WHO IS GOKU?</h1>
+            <p class="subtitle">The Legendary Saiyan</p>
+            <button class="watch-btn" id="watchBtn">Watch Now</button>
+        </div>
+    </div>
+
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeBtn">&times;</button>
+            <video id="gokuVideo" controls>
+                <source src="converted.webm" type="video/webm">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .background-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('converted (1).webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: bg-zoom 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes bg-zoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(10, 5, 32, 0.85) 0%, rgba(13, 6, 24, 0.75) 50%, rgba(10, 5, 32, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .nebula {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(138, 43, 226, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 140, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(30, 144, 255, 0.1) 0%, transparent 70%);
+            animation: nebula-drift 25s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes nebula-drift {
+            0%, 100% { opacity: 0.5; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0.8; transform: scale(1.08) rotate(2deg); }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: star-float 4s ease-in-out infinite;
+        }
+
+        @keyframes star-float {
+            0%, 100% { opacity: 0.2; transform: translateY(0px); }
+            50% { opacity: 1; transform: translateY(-5px); }
+        }
+
+        .energy-orb {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(255, 153, 0, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: orb-pulse 6s ease-in-out infinite;
+            pointer-events: none;
+            filter: blur(50px);
+            z-index: 4;
+        }
+
+        @keyframes orb-pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.4;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.25);
+                opacity: 0.7;
+            }
+        }
+
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 200, 100, 0.7);
+            border-radius: 50%;
+            animation: particle-rise 8s linear infinite;
+            box-shadow: 0 0 4px rgba(255, 200, 100, 0.5);
+        }
+
+        @keyframes particle-rise {
+            0% { 
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            animation: hero-entrance 2s ease-out;
+        }
+
+        @keyframes hero-entrance {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+                filter: blur(10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        h1 {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffa500 0%, #ff6b35 50%, #ffa500 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 4s ease infinite;
+            margin-bottom: 1rem;
+            letter-spacing: 0.08em;
+            filter: drop-shadow(0 0 25px rgba(255, 165, 0, 0.6));
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 3.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            animation: subtitle-fade 3s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes subtitle-fade {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .watch-btn {
+            background: linear-gradient(135deg, rgba(255, 153, 0, 0.95) 0%, rgba(255, 102, 0, 0.95) 100%);
+            border: 2px solid rgba(255, 165, 0, 0.6);
+            padding: 20px 55px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 
+                0 0 30px rgba(255, 153, 0, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+            animation: btn-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes btn-glow {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 30px rgba(255, 153, 0, 0.5),
+                    inset 0 0 20px rgba(255, 255, 255, 0.15);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 50px rgba(255, 153, 0, 0.8),
+                    inset 0 0 30px rgba(255, 255, 255, 0.25);
+            }
+        }
+
+        .watch-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .watch-btn:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 165, 0, 1);
+            box-shadow: 
+                0 0 60px rgba(255, 153, 0, 0.9),
+                inset 0 0 30px rgba(255, 255, 255, 0.25);
+        }
+
+        .watch-btn:active {
+            transform: scale(0.98);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.93);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            background: linear-gradient(135deg, rgba(26, 15, 46, 0.95), rgba(13, 6, 24, 0.95));
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 
+                0 0 70px rgba(255, 153, 0, 0.4),
+                inset 0 0 50px rgba(138, 43, 226, 0.15);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.5s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff9900, #ff6600);
+            border: 2px solid rgba(255, 165, 0, 0.6);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 26px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 25px rgba(255, 153, 0, 0.5);
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .close-btn:hover {
+            background: linear-gradient(135deg, #ff6600, #ff4400);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 6px 35px rgba(255, 153, 0, 0.7);
+        }
+
+        video {
+            width: 100%;
+            border-radius: 12px;
+            outline: none;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                padding: 18px;
+            }
+
+            .close-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+
+            .energy-orb {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .watch-btn {
+                padding: 16px 45px;
+            }
+
+            .subtitle {
+                margin-bottom: 2.5rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Create stars with depth
+        const starsContainer = document.querySelector('.stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2.5 + 0.5;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 4 + 's';
+            star.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Create floating particles
+        const particlesContainer = document.querySelector('.particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Modal functionality
+        const watchBtn = document.getElementById('watchBtn');
+        const modal = document.getElementById('videoModal');
+        const closeBtn = document.getElementById('closeBtn');
+        const video = document.getElementById('gokuVideo');
+
+        watchBtn.addEventListener('click', function() {
+            modal.classList.add('active');
+            setTimeout(function() {
+                video.play();
+            }, 300);
+        });
+
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+            video.pause();
+            video.currentTime = 0;
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+    </script>
+</body>
+</html>
